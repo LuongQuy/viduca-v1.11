@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Thông tin chi tiết khóa học</title>
+    <%- include('layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('layouts/header') %>
+        <br><br>
+        <%- include('layouts/course-tasks') %>
+        <div class="col-md-9 col-sm-7">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Thông tin khóa học</div>
+                <div class="panel-body">
+                    <p><b>Giảng viên: </b>
+                        <%= course.instructor.name %> | <b>Email:</b>
+                        <%= course.instructor.local.email %>
+                    </p>
+                    <p><b>Mô tả: </b>
+                        <%= course.description %>
+                    </p>
+                    <p><b>Nội dung: </b>
+                        <%= course.content %>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

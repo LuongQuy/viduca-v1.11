@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="">
+<%- include('./layouts/classroom/classroom-header-tag') %>
+
+<body>
+    <div class="container-fluid">
+        <%- include('./layouts/classroom/classroom-header') %>
+        <div class="row" style="height: 92vh">
+            <div class="col-md-9" style="height: 100%">
+                <div class="row" style="height:80%">
+                    <%- include('./layouts/classroom/div-show-slide') %>
+                </div>
+                <div class="row" id="videoContainer" style="height: 20%;">
+                    <div class="video" id="localVideo"></div>
+                    <div class="video" id="remoteVideo"></div>
+                </div>
+            </div>
+            <div class="col-md-3 border-left" style="height: 100%">
+                <div class="row">
+                    <%- include('./layouts/classroom/div-chat') %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./layouts/classroom/add-slide-modal') %>
+
+    <script src="/javascripts/pdf.js"></script>
+    <script src="/javascripts/openvidu-browser-2.6.0.js"></script>
+
+    <%- include('./layouts/classroom/script-slide') %>
+
+    <%- include('./layouts/classroom/script-openvidu') %>
+
+    <script>
+        $(document).ready(function () {
+            $('#btnUpload').on('click', function () {
+                var fileData = $('#file').prop('files')[0];
+                console.trace(fileData);
+                var formData = new FormData();
+                formData.append('file', fileData, fileData.name);
+                $.ajax({
+                    url: '/upload-slide',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                })
+                    .done(function (res) {
+                        showSlide(res);
+                        session.signal({
+                            data: res,
+                            to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
+                            type: 'send slide event'             // The type of message (optional)
+                        })
+                            .then(() => {
+                                console.log('send slide event successfully sent');
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                        $('#addSlideModal').modal('hide');
+                        $('#file').val('');
+                    })
+            });
+        });  
+    </script>
+</body>
+
+</html>

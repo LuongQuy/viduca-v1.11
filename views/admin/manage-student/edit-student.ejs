@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sửa thông tin sinh viên</title>
+    <link rel="stylesheet" href="../libraries/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/style.css">
+    <script src="../libraries/jquery-3.3.1.min.js"></script>
+    <script src="../libraries/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('../layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('tasks') %>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Hướng dẫn sửa thông tin sinh viên</div>
+                    <div class="panel-body">
+                        Quản trị viên có thể sửa thông tin sinh viên bằng cách thay đổi thông tin trong các trường, sau
+                        đó ấn nút cập nhật, thông tin mới sẽ được lưu lại.
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Thông tin sinh viên</div>
+                    <div class="panel-body">
+                        <% if(typeof editStudentMessage != 'undefined'){
+                            %>
+                            <div class="alert alert-info"><%= editStudentMessage %></div>
+                            <%
+                        } %>
+                        <form action="" method="post">
+                            <div class="form-group">
+                                <label for="lastname">Họ:</label>
+                                <input type="text" class="form-control" name="lastname" id="lastname" value="<%= student.info.lastname %>">
+                            </div>
+                            <div class="form-group">
+                                <label for="firstname">Tên:</label>
+                                <input type="text" class="form-control" name="firstname" id="firstname" value="<%= student.info.firstname %>">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" name="email" id="email" value="<%= student.local.email %>">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input type="password" class="form-control" name="password" id="pwd" value="<%= student.local.password %>">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Trạng thái:</label>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="ACTIVE">Active</option>
+                                    <option value="INACTIVE">Inactive</option>
+                                    <option value="SUSPENDED">Suspended</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

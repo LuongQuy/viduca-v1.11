@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        <% if(typeof title != 'undefined'){%>
+        <%= title %>
+        <% } %>
+    </title>
+    <%- include('layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('./layouts/header') %>
+        <div class="row" style="margin: 25px 15px 25px 15px">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <% if(typeof title != 'undefined'){%>
+                        <%= title %>
+                        <%} %>
+
+                    </div>
+                    <div class="panel-body">
+                        <% if(typeof msg != 'undefined'){ %>
+                        <div class="alert alert-info">
+                            <%= msg %>
+                        </div>
+                        <% } %>
+                        <% if(courses.length != 0){ %>
+                        <% courses.forEach(function(course){ %>
+                        <div class="gallery center col-md-2">
+                            <a id="courseItem" href="/instructor/my-course-information?courseId=<%= course._id %>" style="color:black">
+                                <div class="thumb" style="background-image: url(<% if(typeof course.avatar != 'undefined'){ %><%= course.avatar %> <% } else {%> /images/avatar-course.jpg <%} %>);"></div>
+                                <div style="margin: 15px 15px 15px 15px">
+                                    <font style="font-size: 15">
+                                        <b>
+                                            <%= course.name %></b>
+                                    </font>
+                                    <br>
+                                    <font class="course-description" style="font-size: 13">
+                                        <%= course.description %>
+                                    </font>
+                                    <br>
+                                    <font style="font-size: 13">
+                                        <b>Instructor:</b> Lương Văn Quý</font>
+                                </div>
+                            </a>
+                        </div>
+                        <% }) %>
+                        <% }else{%>
+                        <p><i>Không có khóa học nào được hiển thị</i></p>
+                        <%} %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

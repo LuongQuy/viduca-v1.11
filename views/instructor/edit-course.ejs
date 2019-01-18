@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chỉnh sửa thông tin khóa học</title>
+    <%- include('layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('layouts/header') %>
+        <br><br>
+        <div class="col-md-3 col-sm-3">
+            <%- include('layouts/course-tasks') %>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Hướng dẫn tạo chỉnh sửa thông tin khóa học</div>
+                <div class="panel-body">
+                    Giảng viên nhập nội dung cần chỉnh sửa của khóa học vào các trường trong form, phần <span style="color: red">(*)</span> là bắt buộc, sau đó ấn nút tạo. Khóa học được cập nhật thành công sẽ có thông báo ra màn hình.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-7">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Chỉnh sửa thông tin khóa học</div>
+                <div class="panel-body">
+                    <% if(typeof editCourseMessage != 'undefined'){
+                        %>
+                        <div class="alert alert-info"><%= editCourseMessage %></div>
+                        <%
+                    } %>
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="name">Tên khóa học <span style="color: red">(*)</span></label>
+                            <input type="text" class="form-control" name="name" id="name" value="<%= course.name %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Mô tả khóa học</label>
+                            <textarea rows="3" class="form-control" name="description" id="description"><%= course.description %></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Nội dung khóa học(đề cương)</label>
+                            <textarea rows="5" class="form-control" name="content" id="content"><%= course.content %></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="oldAvatar">Ảnh đại diện hiện tại</label>
+                            <div class="thumb" style="background-image: url(<% if(typeof course.avatar != 'undefined'){ %><%= course.avatar %> <% } else {%> /images/avatar-course.jpg <%} %>);"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="avatar">Ảnh đại diện mới</label>
+                            <input type="file" class="form-control" name="avatar" id="avatar">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

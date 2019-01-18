@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Danh sách sinh viên trong khóa học</title>
+    <%- include('layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('layouts/course-tasks') %>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Thông tin khóa học</div>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li>Tên:
+                                <%= course.name %>
+                            </li>
+                            <li>Mô tả:
+                                <%= course.description %>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Danh sách sinh viên trong khóa học:
+                        <%= course.name %>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Stt</th>
+                                    <th>Họ tên</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(typeof course.learner != 'undefined') {
+                                            var i = 1;
+                                            course.learner.forEach((student) => {
+                                                %>
+                                <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%= student.info.lastname %>
+                                        <%= student.info.firstname %>
+                                    </td>
+                                    <td>
+                                        <%= student.local.email %>
+                                    </td>
+                                </tr>
+                                <%
+                                                i++;
+                                            });
+                                        }%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

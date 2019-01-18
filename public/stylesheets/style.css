@@ -1,0 +1,92 @@
+/* body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+} */
+.nav-classroom{
+    border-radius: 0px !important;
+    margin-bottom: 0px !important;
+    border: none !important;
+}
+.ul-nav-classroom li a{
+    color: #fff !important;
+    font-size: bold !important;
+}
+.ul-nav-classroom li:hover{
+    background-color: rgba(79, 133, 162, 0.21);;
+}
+.courseName{
+    padding: 0 14px;
+    font-size: 21px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.courseItem{
+    background-image: url('img/course.jpg');
+    background-size: 300px;
+}
+.border-left{
+    border-left: 1px black solid;
+}
+
+/* css for course item */
+a {
+    text-decoration: none !important;
+}
+
+div.gallery {
+    margin: 5px !important;
+    border: 1px solid #ccc !important;
+    float: left !important;
+    width: 35vh !important;
+    padding: 0px !important;
+}
+
+div.gallery:hover {
+    border: 1px solid #777 !important;
+}
+
+div.desc {
+    padding: 15px !important;
+    text-align: center !important;
+}
+
+.thumb {
+    width: 34.9vh;
+    height: 25vh;
+    background-color: #3e3e3e;
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.course-description{
+    width: 30vh;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-height: 25px;
+    height: 3vh;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+/* end css for course item */
+
+/* css for course avatar in register in the course page */
+.course-avatar{
+    width: 99%;
+    height: 32vh;
+    background-color: #3e3e3e;
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+/* end css for course avatar in register in the course page */

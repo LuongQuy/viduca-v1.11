@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nhập giảng viên mới</title>
+    <link rel="stylesheet" href="../libraries/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/style.css">
+    <script src="../libraries/jquery-3.3.1.min.js"></script>
+    <script src="../libraries/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('../layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('tasks') %>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Hướng dẫn nhập giảng viên mới</div>
+                    <div class="panel-body">
+                        <p>Chọn file định dạng csv với một cột đầu tiên là email của giảng viên, mật khẩu mặc định của
+                        giảng viên chính là email.</p>
+                        <p>Quản trị viên cũng có thể thêm mới giảng viên bằng cách nhập email của giảng viên vào form,
+                        mật khẩu mặc định của giảng viên cũng là email.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Nhập mới giảng viên bằng file csv</div>
+                    <div class="panel-body">
+                        <% if(typeof importMessage != 'undefined'){
+                        %>
+                        <div class="alert alert-info">
+                            <%= importMessage %>
+                        </div>
+                        <%
+                        } %>
+                        <form action="/admin/import-new-instructor" method="post" enctype="multipart/form-data">
+                            <input type="file" name="fileNewInstructor" id="" class="form-control"><br>
+                            <input type="submit" value="Nhập mới" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Nhập mới giảng viên bằng form</div>
+                    <div class="panel-body">
+                        <% if(typeof addNewInstructorMessage != 'undefined'){
+                                %>
+                        <div class="alert alert-info">
+                            <%= addNewInstructorMessage %>
+                        </div>
+                        <%
+                        } %>
+                        <form action="/admin/add-new-instructor" method="post">
+                            <input type="email" name="emailNewInstructor">
+                            <input type="submit" value="Thêm mới">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

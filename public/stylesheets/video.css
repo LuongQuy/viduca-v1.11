@@ -1,0 +1,9 @@
+video{
+    float: left;
+    width: 17%;
+    height: auto !important;
+    margin-bottom: 0px !important;
+}
+#videoContainer{
+    margin-bottom: 0px !important;
+}

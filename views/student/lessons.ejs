@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Trang chủ</title>
+    <%- include('layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Nội dung khóa học</div>
+                    <div class="panel-body">
+                            <form action="/teacher/create-new-lesson?courseId=<%= course._id %>" method="POST">
+                                <div class="form-group">
+                                    <label class="pull-left" for="lessonName">Tạo buổi học mới</label>
+                                    <input type="text" class="form-control" id="lessonName" name="lessonName" aria-describedby="" placeholder="Nhập tên buổi học">
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                </div>
+                                <button type="submit" class="btn btn-primary pull-left">Tạo</button>
+                            </form>
+                            <br>
+                            <br>
+                            <br>
+                            <h5 class="pull-left">Buổi học</h5><br><br>
+                            <% if(typeof lessons != 'undefined'){ var i = 1; %>
+                            <% lessons.forEach(
+                                    (lesson) => {
+                                        %>
+                            <ul class="list-group">
+                                <li class="list-group-item"><a class="pull-left" href="">Buổi
+                                        <%= i %>:
+                                        <%= lesson.name %></a></li>
+                            </ul>
+                            <%  i++;
+                                    }
+                                ) %>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

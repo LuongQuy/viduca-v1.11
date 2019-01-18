@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Danh sách điểm danh của buổi học
+        <%= lesson.name %>
+    </title>
+    <%- include('layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('layouts/lesson-tasks') %>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Danh sách điểm danh buổi học:
+                        <%= lesson.name %>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Stt</th>
+                                <th>Họ Tên</th>
+                                <th>Email</th>
+                                <th>Thời gian vào lớp</th>
+                            </thead>
+                            <tbody>
+                                <% if(lesson.participants.length != 0){ var i = 1; %>
+                                <% lesson.participants.forEach(
+                                                        (participant) => {
+                                                            %>
+                                <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%= participant.student.info.lastname %>
+                                        <%= participant.student.info.firstname %>
+                                    </td>
+                                    <td>
+                                        <%= participant.student.local.email %>
+                                    </td>
+                                    <td>
+                                        <%= participant.join_time %>
+                                    </td>
+                                </tr>
+                                <%  i++;
+                                                        }
+                                                    ) %>
+                                <% }else{ %>
+                                <p><i>Không có sinh viên nào được hiển thị</i></p>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

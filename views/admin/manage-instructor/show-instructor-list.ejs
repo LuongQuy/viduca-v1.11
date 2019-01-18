@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quản lý giảng viên</title>
+    <link rel="stylesheet" href="../libraries/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/style.css">
+    <script src="../libraries/jquery-3.3.1.min.js"></script>
+    <script src="../libraries/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('../layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('tasks') %>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Hướng dẫn quản lý giảng viên</div>
+                    <div class="panel-body">
+                        Quản trị viên có thể xóa hoặc sửa thông tin giảng viên bằng cách click vào tác vụ tương ứng bên
+                        cạnh giảng viên.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Danh sách giảng viên</div>
+                    <div class="panel-body">
+                        <% if(typeof msg != 'undefined') { %>
+                            <div class="alert alert-info"><%= msg %></div>
+                        <% } %>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Stt</th>
+                                    <th>Họ tên</th>
+                                    <th>Email</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tác vụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(typeof instructors != 'undefined') {
+                                    var i = 1;
+                                    instructors.forEach((instructor) => {
+                                        %>
+                                <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%= instructor.info.lastname %>
+                                        <%= instructor.info.firstname %>
+                                    </td>
+                                    <td>
+                                        <%= instructor.local.email %>
+                                    </td>
+                                    <td>
+                                        <%= instructor.status %>
+                                    </td>
+                                    <td>
+                                        <span><a href="/admin/edit-instructor?instructorId=<%= instructor._id %>"><i
+                                                    class="glyphicon glyphicon-edit"></i></a> | <a href="/admin/delete-instructor?instructorId=<%= instructor._id %>"><i
+                                                    class="glyphicon glyphicon-remove"></i></a></span>
+                                    </td>
+                                </tr>
+                                <%
+                                        i++;
+                                    });
+                                }%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

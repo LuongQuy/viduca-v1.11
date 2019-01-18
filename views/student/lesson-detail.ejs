@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Thông tin chi tiết buổi học</title>
+    <%- include('layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('layouts/header') %>
+        <br><br>
+        <div class="col-md-3 col-sm-3">
+            <%- include('layouts/lesson-tasks') %>
+        </div>
+        <div class="col-md-9 col-sm-7">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Thông tin buổi học:
+                    <%= lesson.name %>
+                </div>
+                <div class="panel-body">
+                    <p><b>Nội dung: </b><br>
+                        <% if(lesson.content != ''){ %>
+                        <p>
+                            <%= lesson.content %>
+                        </p>
+                        <% }else{ %>
+                        <p><i>Không có nội dung để hiện thị</i></p>
+                        <% } %>
+                    </p>
+                    <b>Slides: </b><br>
+                    <ul class="nav nav-pills nav-stacked">
+                        <% if(lesson.slides.length != 0){ %>
+                        <% lesson.slides.forEach(lesson => { %>
+                        <li><a href="<%= lesson.url %>">
+                                <%= lesson.name %></a></li>
+                        <% }) %>
+                        <% }else { %>
+                        <p><i>Không có slide để hiển thị.</i></p>
+                        <% } %>
+                    </ul>
+                    <b>Tài liệu: </b><br>
+                    <ul class="nav nav-pills nav-stacked">
+                        <% if(lesson.documents.length != 0){ %>
+                        <% lesson.document.forEach(document => { %>
+                        <li><a href="<%= document.url %>">
+                                <%= document.name %></a></li>
+                        <% }) %>
+                        <% }else { %>
+                        <p><i>Không có tài liệu để hiển thị.</i></p>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

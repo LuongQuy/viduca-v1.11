@@ -1,0 +1,15 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">Tác vụ quản lý khóa học</div>
+    <div class="panel-body">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="/instructor/my-course-information?courseId=<%= course._id %>">Thông tin</a></li>
+            <li><a href="/instructor/delete-course?courseId=<%= course._id %>">Xóa khóa học</a></li>
+            <li><a href="/instructor/create-new-lesson?courseId=<%= course._id %>">Tạo buổi học mới</a></li>
+            <li><a href="/instructor/edit-course?courseId=<%= course._id %>">Chỉnh sửa thông tin khóa
+                    học</a></li>
+            <li><a href="/instructor/show-lesson-list?courseId=<%= course._id %>">Xem danh sách buổi học của khóa học</a></li>
+            <li><a href="/instructor/student-of-the-course?courseId=<%= course._id %>">Xem danh sách
+                    sinh viên trong khóa học</a></li>
+        </ul>
+    </div>
+</div>
