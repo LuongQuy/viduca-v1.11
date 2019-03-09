@@ -53,7 +53,7 @@ app.post('/upload-slide', function (req, res, next) {
   form.uploadDir = 'public/slides';
   form.parse(req, (err, fields, file) => {
     const oldPath = file.file.path;
-    const savePath = '/slides/' + file.file.name;
+    const savePath = '/slides/' + Date.now() + file.file.name;
     const newPath = 'public' + savePath;
     fs.rename(oldPath, newPath, err => {
       if(!err){

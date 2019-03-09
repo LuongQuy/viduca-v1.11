@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quản lý khóa học</title>
+    <link rel="stylesheet" href="../libraries/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/style.css">
+    <script src="../libraries/jquery-3.3.1.min.js"></script>
+    <script src="../libraries/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('../layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('tasks') %>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Hướng dẫn quản lý khóa học</div>
+                    <div class="panel-body">
+                        Quản trị viên có thể phê duyệt hoặc hủy phê duyệt các khóa học do giảng viên tạo ra.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Danh sách khóa học</div>
+                    <div class="panel-body">
+                        <% if(typeof msg != 'undefined') { %>
+                            <div class="alert alert-info"><%= msg %></div>
+                        <% } %>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Stt</th>
+                                    <th>Tên khóa học</th>
+                                    <th>Giảng viên</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tác vụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(typeof courses != 'undefined') {
+                                    var i = 1;
+                                    courses.forEach((course) => {
+                                        %>
+                                <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%= course.name %>                                        
+                                    </td>
+                                    <td>
+                                        <%= course.instructor.info.firstname %>
+                                        <%= course.instructor.info.lastname %> 
+                                    </td>
+                                    <td>
+                                        <% if(course.approved == true){ %>
+                                            Đã phê duyệt
+                                        <% }else{ %>
+                                            Chưa phê duyệt
+                                        <% } %>
+
+                                    </td>
+                                    <td>
+                                            <% if(course.approved == false){ %>
+                                                <a href="/admin/approve-course?courseId=<%= course._id %>&status=<%= course.approved %>"><button class="btn btn-info">Phê duyệt</button></a>
+                                            <% }else{ %>
+                                                <a href="/admin/approve-course?courseId=<%= course._id %>&status=<%= course.approved %>"><button class="btn btn-default">Hủy phê duyệt</button></a>
+                                            <% } %>
+                                            <a href="/admin/delete-course?courseId=<%= course._id %>"><button class="btn btn-danger">Xóa khóa học</button></a>
+                                    </td>
+                                </tr>
+                                <%
+                                        i++;
+                                    });
+                                }%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

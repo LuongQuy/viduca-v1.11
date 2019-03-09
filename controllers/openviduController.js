@@ -1,7 +1,7 @@
 const moment = require('moment');
 const OpenVidu = require('openvidu-node-client').OpenVidu;
-// const OV = new OpenVidu('https://45.32.99.33:4443', 'MY_SECRET');
-const OV = new OpenVidu('localhost:4443', 'MY_SECRET');
+const OV = new OpenVidu('https://207.148.109.204:4443/', 'YOUR_SECRET');
+// const OV = new OpenVidu('localhost:4443', 'MY_SECRET');
 const courseModel = require('../models/course');
 const lessonModel = require('../models/lesson');
 const library = require('./library');

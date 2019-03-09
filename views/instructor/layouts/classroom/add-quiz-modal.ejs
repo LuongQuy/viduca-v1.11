@@ -1,0 +1,35 @@
+<div id="quizModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="form-group">
+                    <div class="modal-header">
+                        <h4 class="modal-title pull-left">Dán link Google form</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input id="linkGoogleForm" class="form-control" type="text" />
+                        <br>
+                        
+                        <input id="btnSubmitQuiz" class="btn btn-info" type="submit" value="Submit" />
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+</div>
+<script>
+    $('#btnSubmitQuiz').on('click', function(){
+        var linkGoogleForm = $('#linkGoogleForm').val().match(/https:\/\/[\w.\/-]*/);
+        linkGoogleForm = linkGoogleForm + '?embedded=true';
+        session.signal({
+            data: linkGoogleForm,
+            to: [],
+            type: 'quiz'
+        });
+        $('#quizModal').modal('hide');
+        $('#linkGoogleForm').val('');
+        $('#slideContainer').hide();
+        $('#youtubeIframe').hide();
+        $('#quizIframe').attr('src', linkGoogleForm)
+        $('#quizIframe').show();
+    })
+</script>

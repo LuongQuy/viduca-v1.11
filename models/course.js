@@ -10,7 +10,8 @@ var courseSchema = new Schema({
     avatar: String,
     documents: Array,
     learner: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    session: Schema.Types.Mixed
+    session: Schema.Types.Mixed,
+    approved: Boolean
 }, {
     timestamps: true
 });

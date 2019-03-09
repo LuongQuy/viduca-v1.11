@@ -1,9 +1,14 @@
 video{
     float: left;
-    width: 17%;
-    height: auto !important;
+    width: 22%;
+    height: 100%;
     margin-bottom: 0px !important;
+    border: 1px black solid;
+    /* border-radius: 5px; */
 }
 #videoContainer{
     margin-bottom: 0px !important;
+    border: 1px black solid;
+    /* overflow-x: auto; */
+    display: flex;
 }

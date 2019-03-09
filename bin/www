@@ -8,6 +8,12 @@ var app = require('../app');
 var debug = require('debug')('viduca-v1.10:server');
 var https = require('https');
 const fs = require('fs');
+const io = require('socket.io')(https);
+
+io.on('connection', socket => {
+  console.log('co nguoi ket noi');
+  console.log(socket.id + ' da ket noi');
+})
 
 /**
  * Get port from environment and store in Express.

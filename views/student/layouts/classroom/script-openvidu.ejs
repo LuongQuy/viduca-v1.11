@@ -44,7 +44,26 @@ var chatContent = document.getElementById('chat-content');
 
         session.on('signal:send slide event', event => {
             showSlide(event.data);
+            $('#youtubeIframe').hide();
+            $('#quizIframe').hide();
+            $('#slideContainer').show();
         });
+
+        session.on('signal:youtube', event => {
+            var linkYoutube = event.data;
+            $('#slideContainer').hide();
+            $('#quizIframe').hide();
+            $('#youtubeIframe').attr('src', linkYoutube);
+            $('#youtubeIframe').show();
+        });
+
+        session.on('signal:quiz', event => {
+            var linkGoogleForm = event.data;
+            $('#slideContainer').hide();
+            $('#youtubeIframe').hide();
+            $('#quizIframe').attr('src', linkGoogleForm)
+            $('#quizIframe').show();
+        })
 
         session.connect(token)
             .then(() => {

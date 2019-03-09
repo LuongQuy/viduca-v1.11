@@ -90,3 +90,7 @@ div.desc {
     background-size: cover;
 }
 /* end css for course avatar in register in the course page */
+
+#main-container {
+    border: 1px black solid;
+}

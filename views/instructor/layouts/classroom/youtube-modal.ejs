@@ -1,0 +1,35 @@
+<div id="youtube" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="form-group">
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">Chia sẻ video youtube</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="link-youtube" class="form-control" type="text" />
+                    <br>
+                    
+                    <input id="btnYoutube" class="btn btn-info" type="submit" value="Submit" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $('#btnYoutube').on('click', function(){
+        var linkYoutube = $('#link-youtube').val().match(/\=[\w]+/).toString().replace('=', '');
+        linkYoutube = 'https://www.youtube.com/embed/'+ linkYoutube;
+        session.signal({
+            data: linkYoutube,
+            to: [],                  
+            type: 'youtube'
+        });
+        $('#youtube').modal('hide');
+        $('#link-youtube').val('');
+        $('#slideContainer').hide();
+        $('#quizIframe').hide();
+        $('#youtubeIframe').attr('src', linkYoutube);
+        $('#youtubeIframe').show();
+    })
+</script>

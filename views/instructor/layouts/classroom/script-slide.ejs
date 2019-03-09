@@ -72,4 +72,37 @@
         changePage(1);
         document.getElementById('currentNumber').value = 1;
     }
+
+    $('#btnUpload').on('click', function () {
+        var fileData = $('#file').prop('files')[0];
+        // console.trace(fileData);
+        var formData = new FormData();
+        formData.append('file', fileData, fileData.name);
+        $.ajax({
+            url: '/upload-slide',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+        })
+            .done(function (res) {
+                showSlide(res);
+                session.signal({
+                    data: res,
+                    to: [],                     // Array of Connection objects (optional. Broadcast to everyone if empty)
+                    type: 'send slide event'             // The type of message (optional)
+                })
+                    .then(() => {
+                        console.log('send slide event successfully sent');
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                $('#addSlideModal').modal('hide');
+                $('#file').val('');
+                $('#youtubeIframe').hide();
+                $('#quizIframe').hide();
+                $('#slideContainer').show();
+            })
+    }); 
 </script>

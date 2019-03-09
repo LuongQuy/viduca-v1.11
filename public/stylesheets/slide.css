@@ -7,17 +7,17 @@ canvas{
     width: 35px;
 }
 #slideContainer{
-    /* width: 100%; */
+    width: 100%;
     height: 100%;
     margin: 0px 0px;
     position: relative;
 }
 #controlSlide{
     width: 100%;
-    height: 50px;
+    height: 10%;
     display: flex;
     background-color: #3b3835;
-    /* margin-top: 0px !important; */
+    /* margin-top: 31% !important; */
 }
 #slide{
     width: auto;
