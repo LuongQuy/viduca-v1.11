@@ -31,9 +31,9 @@
             </div>
             <div class="panel panel-primary">
                 <div class="panel-heading">Nội dung khóa học</div>
-                <% if(typeof course.content != 'undefined'){
-
-                }else {
+                <% if(typeof course.content != 'undefined'){ %>
+                    <%= course.content %>
+                <% }else {
                     %>
                         <div class="panel-body"><p>Nội dung khóa học chưa được cập nhật</p></div>
                     <%

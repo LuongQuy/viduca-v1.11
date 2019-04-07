@@ -23,8 +23,13 @@
                 <li>
                     <a href="#">Notes</a>
                 </li>
-                <li>
-                    <a href="" id="btnLeaveClass">Leave</a>
+                <li> <a href="" id="btnLeaveClass">
+                    <form action="/student/leave-session" method="POST">
+                       Leave
+                        <input type="hidden" value="<%= lessonId %>" name="lessonId">
+                        <input type="hidden" value="<%= token %>" name="token">
+                    </form>
+                </a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

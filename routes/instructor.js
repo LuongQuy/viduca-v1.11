@@ -6,6 +6,7 @@ const classroomController = require('../controllers/instructor/classroomControll
 const authController = require('../controllers/authController');
 const instructorController = require('../controllers/instructor/instructorController');
 const lessonController = require('../controllers/instructor/lessonController');
+const quizController = require('../controllers/instructor/quizController');
 
 router.get('/', authController.isLogged, authController.isInstructor, instructorController.getIndex);
 
@@ -47,8 +48,18 @@ router.get('/classroom', authController.isLogged, authController.isInstructor, c
 
 router.get('/show-attendance-list', authController.isLogged, authController.isInstructor, lessonController.getAttendanceList);
 
+router.get('/create-new-quiz', authController.isLogged, authController.isInstructor, quizController.getCreateNewQuiz);
+
+router.post('/create-new-quiz', authController.isLogged, authController.isInstructor, quizController.postCreateNewQuiz);
+
 router.get('/setting', authController.isLogged, authController.isInstructor, instructorController.getSetting);
 
 router.post('/setting', authController.isLogged, authController.isInstructor, instructorController.postSetting);
+
+router.get('/get-quiz', authController.isLogged, authController.isInstructor, quizController.getQuiz);
+
+router.get('/get-result-quiz', authController.isLogged, authController.isInstructor, quizController.getResultQuiz);
+
+router.get('/get-result-quiz-classroom', authController.isLogged, authController.isInstructor, quizController.getResultQuizClassroom);
 
 module.exports = router;

@@ -1,0 +1,41 @@
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <% quizes.forEach(quiz => { %>
+                <h3><%= quiz.question %></h3>
+                <% quiz.answers.forEach(answer => { %>
+                    <p><input type="radio" name="<%= quiz._id %>" value="<%= answer.id %>">&nbsp;
+                    <%= answer.content %>
+                    </p>
+                <% }) %>
+            <% }); %>
+            <button id="btnSubmitQuiz" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+<script>
+    var answersOfStudent = new Array();
+    $("input[type='radio']").on('click', function(){
+        var key = $(this).attr('name');
+        answersOfStudent[key.toString()] = $(this).val().toString();
+    });
+    
+    $('#btnSubmitQuiz').on('click', function(){
+        var cnt = 0;
+        for(var key in answersOfStudent){
+            $.ajax({
+                type: 'POST',
+                data: {
+                    studentId: $("input[name='studentId']").val(),
+                    lesson: $("input[name='lessonId']").val(),
+                    question: key,
+                    answer: answersOfStudent[key]
+                },
+                url: '/student/save-result-quiz',
+                success: function(data){
+                    cnt += parseInt(data);
+                }
+            })
+        }
+        setTimeout(() => alert('Điểm của bạn là: '+cnt), 900);
+    });
+</script>

@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="">
 <%- include('layouts/classroom/classroom-header-tag') %>
+<%- include('../attendance') %>
 
 <body>
+    <input type="hidden" name="studentId" value="<%= userId %>">
+    <input type="hidden" name="lessonId" value="<%= lessonId %>">
     <div class="container-fluid">
         <%- include('layouts/classroom/classroom-header') %>
         <div class="row" style="height: 92vh">
             <div class="col-md-9" style="height: 100%">
-                <div class="row" style="height:75vh" id="main-container">   
+                <div class="row" style="height:75vh" id="main-container">  
+                    <div id="quiz-container">
+                        <div id="countdown">Time left = <span id="timer"></span></div> 
+                    </div>
                         <%- include('./layouts/classroom/div-show-slide') %>
                         <iframe id="youtubeIframe" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <iframe id="quizIframe" src="" width="100%" height="99%" frameborder="0" marginheight="0" marginwidth="0">Đang tải...</iframe>
                 </div>
                 
                 <div class="row" id="videoContainer" style="height: 17vh;">
@@ -54,8 +59,38 @@
     <%- include('./layouts/classroom/script-openvidu.ejs') %>
 
 </body>
+<style>
+#countdown{
+  position: absolute;
+  background-color:#419D78;
+  color:#EFD0CA;
+  font-size:20px;
+  text-align:center;
+}
+</style>
 <script>
     var socket = io('');
+    $('#youtubeIframe').hide();
+    $('#quiz-container').hide();
+
+function startTimer() {
+  var presentTime = document.getElementById('timer').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  if(s==59){m=m-1}
+  if(m<0){$('#btnSubmitQuiz').click(); return}
+  
+  document.getElementById('timer').innerHTML =
+    m + ":" + s;
+  setTimeout(startTimer, 1000);
+}
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+}
 </script>
 
 </html>

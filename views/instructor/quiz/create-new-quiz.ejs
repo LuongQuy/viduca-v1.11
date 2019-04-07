@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tạo quiz</title>
+    <%- include('../layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('../layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('quiz-tasks') %>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Hướng dẫn tạo mới quiz</div>
+                    <div class="panel-body">Giảng viên điền thông tin quiz và ấn nút tạo, quiz mới sẽ được tạo
+                        ra.</div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Tạo quiz mới cho buổi học:
+                        
+                    </div>
+                    <div class="panel-body">
+                        <div id="show-msg">
+                            <%- include('../layouts/message') %>
+                        </div>
+                        <form action="/instructor/create-new-quiz?lessonId=<%= lessonId %>" method="POST">
+                            <div class="form-group">
+                                <button class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Thêm câu hỏi</button>
+                                <select class="btn btn-default" name="" id="ChooseTypeQuestion">
+                                    <option value="">Một lựa chọn</option>
+                                    <option value="">Nhiều lựa chọn</option>
+                                    <option value="">Điền đáp án</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Câu hỏi <span style="color: red">(*)</span></label>
+                                <input class="form-control" name="question" />
+                            </div>
+                           
+                            <label for="content">Đáp án: <span style="color: red">(*)</span></label>
+                            <div class="form-group" id="formAnswer">
+                                    <input type="text" name="answer[]"> &nbsp;
+                                    <input type="radio" name="correctAnswer" value="1" checked="checked">  
+                            </div>
+                            <input id="currentValueAnswer" type="hidden" value="1">
+                            <button id="btnAddAnswer" type="button" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Thêm phương án</button> <br><br>
+                            <button id="btnAddQuiz" type="submit" class="btn btn-primary pull-left">Thêm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+        $('#btnAddAnswer').on('click', function(){
+            var currentValueAnswer = $('#currentValueAnswer');
+            var increaseValue = parseInt(currentValueAnswer.val()) + 1;
+            $('#formAnswer').append(`
+            <br><br><input type="text" name="answer[]"> &nbsp;
+            <input type="radio" value="${increaseValue}" name="correctAnswer">
+            `);
+            
+            currentValueAnswer.val(increaseValue);
+        });
+        $('form').on('submit', function(event){
+            event.preventDefault();
+            var values = [];
+            $("input[name='answer[]']").each(function() {
+                values.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: {
+                    question: $("input[name='question']").val(),
+                    answer: JSON.stringify(values),
+                    correctAnswer: $("input[name='correctAnswer']:checked").val()
+                },
+                success: function(data){
+                    $('#show-msg').html(`
+                        <div id="msg" class="alert alert-info">
+                            ${data.msg}
+                        </div>
+                    `);
+                    $("input[name='question']").val('');
+                    $('#currentValueAnswer').val('1');
+                    $('#formAnswer').html(`
+                    <input type="text" name="answer[]"> &nbsp;
+                    <input type="radio" value="1" name="correctAnswer" checked="checked">
+                    `);
+                }
+            })
+        });
+    });
+
+</script>
+
+</html>

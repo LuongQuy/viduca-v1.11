@@ -13,19 +13,6 @@ exports.getClassroom = (req, res, next) => {
         if (lesson) {
             const room = req.query.lessonId;
             if (req.user.role == 'STUDENT' && lesson.course.learner.toString().includes(req.user._id)) {
-                if (lesson.participants.findIndex((participant) => {
-                    return (req.user._id.equals(participant.student));
-                }) === -1) {
-                    lesson.update({
-                        $push: {
-                            participants: {
-                                student: req.user._id,
-                                join_time: Date.now()
-                            }
-                        }
-                    }).exec();
-                }
-
                 if (mapSessions[room]) {
                     var mySession = mapSessions[room];
                     mySession.generateToken()
@@ -33,7 +20,10 @@ exports.getClassroom = (req, res, next) => {
                             mapSessionNamesTokens[room].push(token);
                             res.render('student/classroom', {
                                 token: token,
-                                username: library.getCurrentUser(req.user)
+                                username: library.getCurrentUser(req.user),
+                                lessonId: req.query.lessonId,
+                                userId: req.user._id,
+                                role: req.user.role
                             });
                         })
                         .catch(err => console.log(err));
@@ -51,7 +41,10 @@ exports.getClassroom = (req, res, next) => {
                                 mapSessionNamesTokens[room].push(token);
                                 res.render('instructor/classroom', {
                                     token: token,
-                                    username: library.getCurrentUser(req.user)
+                                    username: library.getCurrentUser(req.user),
+                                    lessonId: req.query.lessonId,
+                                    userId: req.user._id,
+                                    role: req.user.role
                                 });
                             })
                             .catch(err => console.log(err));
@@ -64,4 +57,13 @@ exports.getClassroom = (req, res, next) => {
             return res.send('Buổi học không tồn tại, vui lòng quay trở lại.');
         }
     });
+}
+
+
+exports.postLeaveSession = (req, res) => {
+    var lessonId = req.body.lessonId;
+    var token = req.body.token;
+    console.log(lessonId);
+    console.log(token);
+    process.exit(1);
 }

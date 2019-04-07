@@ -34,10 +34,10 @@ exports.postCreateNewCourse = (req, res) => {
                     var newCourse = new courseModel({
                         name: fields.name,
                         description: fields.description,
-                        content: fields.content,
                         avatar: savePath,
                         instructor: req.user._id,
-                        approved: false
+                        approved: false,
+                        password: fields.password
                     });
                     newCourse.save((err, course) => {
                         return res.render('instructor/create-new-course', { createNewCourseMessage: 'Tạo khóa học mới thành công.', username: libary.getCurrentUser(req.user) });
@@ -50,9 +50,9 @@ exports.postCreateNewCourse = (req, res) => {
             var newCourse = new courseModel({
                 name: fields.name,
                 description: fields.description,
-                content: fields.content,
                 instructor: req.user._id,
-                approved: false
+                approved: false,
+                password: fields.password
             });
             newCourse.save((err, course) => {
                 return res.render('instructor/create-new-course', { createNewCourseMessage: 'Tạo khóa học thành công.', username: libary.getCurrentUser(req.user) })
@@ -96,8 +96,8 @@ exports.postEditCourse = (req, res) => {
                                 courseModel.findByIdAndUpdate(req.query.courseId, {
                                     name: fields.name,
                                     description: fields.description,
-                                    content: fields.content,
                                     avatar: savePath,
+                                    password: fields.password
                                 }, (err, course) => {
                                     courseModel.findById(req.query.courseId, (err, course) => {
                                         return res.render('instructor/edit-course', { course: course, editCourseMessage: 'Cập nhật thông tin khóa học thành công.', username: libary.getCurrentUser(req.user) });
@@ -111,7 +111,7 @@ exports.postEditCourse = (req, res) => {
                         courseModel.findByIdAndUpdate(req.query.courseId, {
                             name: fields.name,
                             description: fields.description,
-                            content: fields.content,
+                            password: fields.password
                         }, (err, course) => {
                             courseModel.findById(req.query.courseId, (err, course) => {
                                 return res.render('instructor/edit-course', { course: course, editCourseMessage: 'Cập nhật thông tin khóa học thành công.', username: libary.getCurrentUser(req.user) });
@@ -129,13 +129,13 @@ exports.postEditCourse = (req, res) => {
 }
 
 exports.getCourseDetail = (req, res) => {
-    courseModel.findById(req.query.courseId).where(approved, true).populate('instructor').exec((err, course) => {
+    courseModel.findById(req.query.courseId).where('approved', true).populate('instructor').exec((err, course) => {
         return res.render('instructor/course-detail', { course: course, username: libary.getCurrentUser(req.user) });
     });
 }
 
 exports.getStudentOfCourse = (req, res) => {
-    courseModel.findById(req.query.courseId).where(approved, true).populate('learner').exec((err, course) => {
+    courseModel.findById(req.query.courseId).where('approved', true).populate('learner').exec((err, course) => {
         res.render('instructor/student-of-the-course', { course: course, username: libary.getCurrentUser(req.user) });
     });
 }
@@ -162,7 +162,7 @@ exports.getDeleteCourse = (req, res) => {
 }
 
 exports.getMyCourseInformation = (req, res) => {
-    courseModel.findById(req.query.courseId).where(approved, true).populate('instructor').exec((err, course) => {
+    courseModel.findById(req.query.courseId).where('approved', true).populate('instructor').exec((err, course) => {
         if (course) {
             if (req.user._id.equals(course.instructor._id)) {
                 res.render('instructor/my-course-information', { course: course, username: libary.getCurrentUser(req.user) });

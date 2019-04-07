@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Danh sách điểm danh của buổi học
+        
+    </title>
+    <%- include('layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('layouts/lesson-tasks') %>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Kết quả bài quiz của buổi học:
+                        <%= lesson.name %>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Stt</th>
+                                <th>Email</th>
+                                <th>Điểm</th>
+                                <th>Tỉ lệ trả lời đúng</th>
+                            </thead>
+                            <% var i = 0; for(var key in resultOfStudent){ %>
+                                <td><%= ++i; %></td>
+                                <td><%= key %></td>
+                                <td><%= resultOfStudent[key] %> / <%= totalQuiz %></td>
+                                <td>
+                                    <% var percentCorrect = parseInt(resultOfStudent[key]/totalQuiz*100) %>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<%= percentCorrect %>"
+                                        aria-valuemin="0" aria-valuemax="100" style="width:<%= percentCorrect %>%">
+                                          Đúng <%= percentCorrect %>% quiz
+                                        </div>
+                                    </div>
+                                </td>
+                            <% } %>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

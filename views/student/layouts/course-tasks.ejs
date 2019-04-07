@@ -9,8 +9,9 @@
         <div class="panel-body">
             <ul class="nav nav-pills nav-stacked">
                 <% if(boolRegister){%>
-                <li class="active"><a href="/student/register-in-the-course?courseId=<%= course._id %>">Tham gia khóa
-                        học</a></li>
+                <li class="active">
+                    <a href="" data-toggle="modal" data-target="#joinCourseModal">Tham gia khóa học</a>
+                </li>
                 <%}else{ %>
                 <li class="active"><a href="/student/quit-the-course?courseId=<%= course._id %>">Hủy đăng ký khóa học</a></li>
                 <li><a href="/student/show-lesson-list?courseId=<%= course._id %>">Xem danh sách buổi học</a></li>
@@ -30,5 +31,26 @@
                 </li>
             </ul>
         </div>
+    </div>
+</div>
+<div id="joinCourseModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="form-group">
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">Điền mật khẩu khóa học</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/student/join-in-course?courseId=<%= course._id %>" method="POST">
+                        <input id="passwordOfCourse" class="form-control" type="text" name="passwordOfCourse" />
+                        <input type="hidden" value="<%= course._id %>" name="courseId">
+                        <br>
+                        
+                        <input id="btnPasswordCourse" class="btn btn-info" type="submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

@@ -11,7 +11,8 @@ var courseSchema = new Schema({
     documents: Array,
     learner: [{type: Schema.Types.ObjectId, ref: 'User'}],
     session: Schema.Types.Mixed,
-    approved: Boolean
+    approved: Boolean,
+    password: String
 }, {
     timestamps: true
 });

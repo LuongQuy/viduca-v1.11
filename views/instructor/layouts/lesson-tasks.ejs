@@ -3,9 +3,11 @@
     <div class="panel-body">
         <ul class="nav nav-pills nav-stacked">
             <li class="active"><a href="/instructor/classroom?lessonId=<%= lesson._id %>"><i class="glyphicon glyphicon-log-in"></i> Vào lớp học</a></li>    
-            <li><a href="/instructor/delete-lesson?lessonId=<%= lesson._id %>">Xóa buổi học</a></li>
             <li><a href="/instructor/lesson-detail?lessonId=<%= lesson._id %>">Thông tin buổi học</a></li>
             <li><a href="/instructor/edit-lesson?lessonId=<%= lesson._id %>">Sửa thông tin buổi học</a></li>
+            <li><a href="/instructor/create-new-quiz?lessonId=<%= lesson._id %>">Tạo quiz cho buổi học</a></li>
+            <li><a href="/instructor/get-result-quiz?lessonId=<%= lesson._id %>">Xem kết quả bài quiz</a></li>
+            <li><a href="/instructor/delete-lesson?lessonId=<%= lesson._id %>">Xóa buổi học</a></li>
             <li><a href="/instructor/show-attendance-list?lessonId=<%= lesson._id %>">Xem danh sách điểm danh</a></li>
             <li><a href="/instructor/create-new-lesson?courseId=<%= lesson.course %>">Tạo buổi học mới cho khóa học</a></li>
             <li><a href="/instructor/show-lesson-list?courseId=<%= lesson.course %>">Xem danh sách buổi học đã tạo</a></li>

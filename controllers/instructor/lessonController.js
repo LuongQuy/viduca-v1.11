@@ -3,6 +3,7 @@ const formidable = require('formidable');
 
 const lessonModel = require('../../models/lesson');
 const courseModel = require('../../models/course');
+const attendanceModel = require('../../models/attendance');
 const library = require('../library');
 
 exports.getLessonDetail = (req, res) => {
@@ -49,11 +50,13 @@ exports.postCreateNewLesson = (req, res) => {
                             const newPath = 'public' + savePath;
                             fs.rename(oldPath, newPath, err => {
                                 if (!err) {
+                                    var date = new Date(fields.startDate);
                                     const newLesson = new lessonModel({
                                         name: fields.lessonName,
                                         content: fields.lessonContent,
                                         slides: { name: file.lessonSlide.name, url: savePath },
                                         course: req.query.courseId,
+                                        date: date.getDate() + ' - ' + date.getDay() + ' - ' + date.getFullYear(),
                                         instructor: req.user._id
                                     });
                                     newLesson.save((err, lesson) => {
@@ -64,10 +67,12 @@ exports.postCreateNewLesson = (req, res) => {
                                 }
                             });
                         } else {
+                            var date = new Date(fields.startDate);
                             const newLesson = new lessonModel({
                                 name: fields.lessonName,
                                 content: fields.lessonContent,
                                 course: req.query.courseId,
+                                date: date.getDate() + ' - ' + date.getDay() + ' - ' + date.getFullYear(),
                                 instructor: req.user._id
                             });
                             newLesson.save((err, lesson) => {
@@ -86,7 +91,6 @@ exports.postCreateNewLesson = (req, res) => {
         }
     });
 }
-
 
 exports.getEditLesson = (req, res) => {
     lessonModel.findById(req.query.lessonId, (err, lesson) => {
@@ -182,7 +186,11 @@ exports.getDeleteLesson = (req, res) => {
 }
 
 exports.getAttendanceList = (req, res) => {
-    lessonModel.findById(req.query.lessonId).populate('participants.student').exec((err, lesson) => {
-        return res.render('instructor/show-attendance-list', { lesson: lesson, username: library.getCurrentUser(req.user) });
+    attendanceModel.find({lesson: req.query.lessonId}).populate('lesson').populate('student').exec((err, attendances) => {
+    if(!err){
+        return res.render('instructor/show-attendance-list', { lesson: attendances[0].lesson, attendances: attendances, username: library.getCurrentUser(req.user) });
+    }else{
+        return res.send('Chưa có danh sách điểm danh, vui lòng quay trở lại');
+    }
     });
 }

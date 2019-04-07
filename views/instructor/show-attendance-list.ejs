@@ -30,35 +30,22 @@
                                 <th>Stt</th>
                                 <th>Họ Tên</th>
                                 <th>Email</th>
-                                <th>Thời gian vào lớp</th>
+                                <th>Thời gian trong lớp</th>
                             </thead>
-                            <tbody>
-                                <% if(lesson.participants.length != 0){ var i = 1; %>
-                                <% lesson.participants.forEach(
-                                                        (participant) => {
-                                                            %>
-                                <tr>
+                            <% if(attendances.length != 0) { %>
+                                <% var i = 0; attendances.forEach(attendance => { %> 
+                                    <td><%= ++i %></td>
+                                    <td><%= attendance.student.info.lastname %> <%= attendance.student.info.firstname %></td>
+                                    <td><%= attendance.student.local.email%></td>
                                     <td>
-                                        <%= i %>
-                                    </td>
-                                    <td>
-                                        <%= participant.student.info.lastname %>
-                                        <%= participant.student.info.firstname %>
-                                    </td>
-                                    <td>
-                                        <%= participant.student.local.email %>
-                                    </td>
-                                    <td>
-                                        <%= participant.join_time %>
-                                    </td>
-                                </tr>
-                                <%  i++;
-                                                        }
-                                                    ) %>
-                                <% }else{ %>
-                                <p><i>Không có sinh viên nào được hiển thị</i></p>
-                                <% } %>
-                            </tbody>
+                                        <% if(attendance.time_attend.length != 0){ %> 
+                                            <% attendance.time_attend.forEach(time_att => { %>
+                                            <%= time_att.join_time %> --> <%= time_att.exit_time %> <br>
+                                            <% }) %>
+                                        <% } %>
+                                    </td>    
+                                <%}) %>
+                            <% } %>
                         </table>
                     </div>
                 </div>

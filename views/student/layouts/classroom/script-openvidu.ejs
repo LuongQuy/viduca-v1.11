@@ -1,3 +1,4 @@
+
 <script src="/javascripts/openvidu-browser-2.6.0.js"></script>
 <script>
 var chatContent = document.getElementById('chat-content');
@@ -7,6 +8,19 @@ var chatContent = document.getElementById('chat-content');
         session = OV.initSession();
         session.on('streamCreated', (event) => {
             session.subscribe(event.stream, "remoteVideo");
+        });
+
+        session.on('signal:add-quiz', (event) => {
+            var urlQuizStudent = '/student/get-quiz?lessonId=' + $("input[name='lessonId']").val();
+            document.getElementById('timer').innerHTML =
+            parseInt(event.data) + ":" + 00;
+            startTimer();
+            $.get(urlQuizStudent, function(data, status){
+                $('#slideContainer').hide();
+                $('#youtubeIframe').hide();
+                $('#quiz-container').append(data);
+                $('#quiz-container').show();
+            });
         });
 
         session.on('signal:chat', (event) => {
@@ -45,25 +59,17 @@ var chatContent = document.getElementById('chat-content');
         session.on('signal:send slide event', event => {
             showSlide(event.data);
             $('#youtubeIframe').hide();
-            $('#quizIframe').hide();
+            $('#quiz-container').hide();
             $('#slideContainer').show();
         });
 
         session.on('signal:youtube', event => {
             var linkYoutube = event.data;
             $('#slideContainer').hide();
-            $('#quizIframe').hide();
+            $('#quiz-container').hide();
             $('#youtubeIframe').attr('src', linkYoutube);
             $('#youtubeIframe').show();
         });
-
-        session.on('signal:quiz', event => {
-            var linkGoogleForm = event.data;
-            $('#slideContainer').hide();
-            $('#youtubeIframe').hide();
-            $('#quizIframe').attr('src', linkGoogleForm)
-            $('#quizIframe').show();
-        })
 
         session.connect(token)
             .then(() => {

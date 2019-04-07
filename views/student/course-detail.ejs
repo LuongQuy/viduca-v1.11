@@ -18,6 +18,9 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Thông tin khóa học</div>
                 <div class="panel-body">
+                    <% if(typeof msg != 'undefined'){ %> 
+                        <div class="alert alert-info"><%= msg %></div>
+                    <% } %>
                     <p><b>Giảng viên: </b>
                         <%= course.instructor.name %> | <b>Email:</b>
                         <%= course.instructor.local.email %>

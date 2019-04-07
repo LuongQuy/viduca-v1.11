@@ -1,0 +1,13 @@
+<input type="hidden" value="<%= userId %>" id="inputUserId">
+<input type="hidden" value="<%= lessonId %>" id="inputLessonId">
+<input type="hidden" value="<%= role %>" id="inputRole">
+<script src="/javascripts/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.emit('send user id', {user: 'luong quy'});
+  socket.on('request information for attendane', event => {
+      var user = 'id quy';
+      var lesson = 'id bai hoc';
+    socket.emit('send information for attendance', {userId: $('#inputUserId').val(), role: $('#inputRole').val(), lessonId: $('#inputLessonId').val()});
+  });
+</script>

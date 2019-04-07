@@ -1,13 +1,14 @@
 <div id="quizModal" class="modal fade" role="dialog">
+    <input id="lessonIdForQuiz" type="hidden" value="<%= lessonId %>">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="form-group">
                     <div class="modal-header">
-                        <h4 class="modal-title pull-left">Dán link Google form</h4>
+                        <h4 class="modal-title pull-left">Set Thời gian</h4>
                     </div>
                     <div class="modal-body">
-                        <input id="linkGoogleForm" class="form-control" type="text" />
-                        <br>
+                        <input id="inputTime" class="" type="number" /> phút
+                        <br><br>
                         
                         <input id="btnSubmitQuiz" class="btn btn-info" type="submit" value="Submit" />
                     </div>
@@ -17,19 +18,62 @@
         </div>
 </div>
 <script>
+    var urlQuiz = '/instructor/get-quiz?lessonId=' + $('#lessonIdForQuiz').val();
+    var urlQuizStudent = '/student/get-quiz?lessonId=' + $('#lessonIdForQuiz').val();
     $('#btnSubmitQuiz').on('click', function(){
-        var linkGoogleForm = $('#linkGoogleForm').val().match(/https:\/\/[\w.\/-]*/);
-        linkGoogleForm = linkGoogleForm + '?embedded=true';
         session.signal({
-            data: linkGoogleForm,
-            to: [],
-            type: 'quiz'
+            data: $('#inputTime').val(),
+            to: [],                     
+            type: 'add-quiz'     
         });
-        $('#quizModal').modal('hide');
-        $('#linkGoogleForm').val('');
-        $('#slideContainer').hide();
-        $('#youtubeIframe').hide();
-        $('#quizIframe').attr('src', linkGoogleForm)
-        $('#quizIframe').show();
-    })
+        $.get(urlQuiz, function(data, status){
+            console.trace(data);
+            $('#slideContainer').hide();
+            $('#youtubeIframe').hide();
+            $('#inputTime').val('');
+            $('#quizModal').modal('hide');
+            $('#quiz-container').append(data);
+            $('#quiz-container').show();
+        });
+        document.getElementById('timer').innerHTML =
+        $('#inputTime').val() + ":" + 00;
+        startTimer();
+    });
 </script>
+<style>
+    #countdown{
+      position: absolute;
+      background-color:#419D78;
+      color:#EFD0CA;
+      font-size:20px;
+      text-align:center;
+    }
+</style>
+<script>
+function startTimer() {
+    var presentTime = document.getElementById('timer').innerHTML;
+    var timeArray = presentTime.split(/[:]+/);
+    var m = timeArray[0];
+    var s = checkSecond((timeArray[1] - 1));
+    if(s==59){m=m-1}
+    if(m<0){
+        var urlQuizStudent = '/instructor/get-result-quiz-classroom?lessonId='+$('#lessonIdForQuiz').val();
+        $.get(urlQuizStudent, function(data, status){
+            $('#quiz-container').html('<br><br><br>' + data);
+        });
+        return;
+    }
+    
+    document.getElementById('timer').innerHTML =
+    m + ":" + s;
+    setTimeout(startTimer, 1000);
+}
+
+function checkSecond(sec) {
+    if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+    if (sec < 0) {sec = "59"};
+    return sec;
+}
+</script>
+
+</html>
