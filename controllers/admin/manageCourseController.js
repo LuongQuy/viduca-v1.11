@@ -12,7 +12,7 @@ exports.getDeleteCourse = (req, res) => {
     
         courseModel.findByIdAndRemove(courseId, (err, course) => {
             if(course){
-                courseModel.find({}).populate('instuctor').exec((err, courses) => {
+                courseModel.find({}).populate('instructor').exec((err, courses) => {
                    return res.render('admin/manage-course/show-course-list', {msg:'Xóa khóa học ' + course.name + ' thành công.' , courses: courses, username: library.getCurrentUser(req.user)});
                 });
             }else{
