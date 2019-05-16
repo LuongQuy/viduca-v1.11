@@ -20,6 +20,7 @@
     });
     
     $('#btnSubmitQuiz').on('click', function(){
+        console.trace(JSON.stringify(answersOfStudent));
         var cnt = 0;
         for(var key in answersOfStudent){
             $.ajax({
@@ -36,6 +37,22 @@
                 }
             });
         }
-        setTimeout(() => alert('Điểm của bạn là: '+cnt), 900);
+        setTimeout(() => {
+            
+            $.ajax({
+                type: "POST",
+                url: "/student/save-reduce-result",
+                data: {
+                    studentId: $("input[name='studentId']").val(),
+                    lesson: $("input[name='lessonId']").val(),
+                    resultQuiz: cnt
+                },
+                success: function(data){
+                    console.trace(data);
+                }
+            });
+            
+            alert('Điểm của bạn là: '+cnt);
+        }, 900);
     });
 </script>

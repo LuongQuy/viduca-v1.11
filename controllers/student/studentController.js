@@ -2,7 +2,8 @@ const library = require('../library');
 const userModel = require('../../models/user');
 
 exports.getIndex = (req, res) => {
-    res.render('student/index', {username: library.getCurrentUser(req.user)});
+    return res.redirect('/student/courses');
+    // res.render('student/index', {username: library.getCurrentUser(req.user)});
 }
 
 exports.getSetting = (req, res) => {

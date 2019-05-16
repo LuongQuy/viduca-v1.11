@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('kpi-layout/header') %>
+
+<body id="page-top">
+
+  <%- include('kpi-layout/nav') %>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('kpi-layout/sidebar') %>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Overview</li>
+        </ol>
+
+        <!-- Icon Cards-->
+        <%- include('kpi-layout/icon-cards') %>
+
+        <% var rateOfCourse = parseInt(sumOfCourse/courseKpi*100) %>
+        <% var rateOfLesson = parseInt(sumOfLesson/lessonKpi*100) %>
+        <% var rateOfQuiz = parseInt(sumOfQuiz/quizKpi*100) %>
+
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Tổng quan</div>
+          <div class="card-body">
+            <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
+            Khóa học
+            <div class="progress" style="height:20px">
+              <div class="progress-bar" style="width:<%= rateOfCourse %>%;height:20px"><%= rateOfCourse %>%</div>
+            </div>
+            Buổi học
+            <div class="progress" style="height:20px">
+                <div class="progress-bar bg-success" style="width:<%= rateOfLesson %>%;height:20px"><%= rateOfLesson %>%</div>
+            </div>
+            Quiz
+            <div class="progress" style="height:20px">
+                <div class="progress-bar bg-danger" style="width:<%= rateOfQuiz %>%;height:20px"><%= rateOfQuiz %>%</div>
+            </div>
+          </div>
+          <div class="card-footer small text-muted">Cập nhật lần cuối 11:59 PM 19-04-2019</div>
+        </div>
+
+        <!-- Area Chart Example-->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Biểu đồ KPI theo khóa học</div>
+          <div class="card-body">
+            <canvas id="myAreaChart" width="100%" height="30"></canvas>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+
+        
+        
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <%- include('kpi-layout/sticky-footer') %>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <%- include('kpi-layout/logout-modal') %>
+
+  <%- include('kpi-layout/footer') %>
+
+</body>
+
+</html>

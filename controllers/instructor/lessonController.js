@@ -56,7 +56,7 @@ exports.postCreateNewLesson = (req, res) => {
                                         content: fields.lessonContent,
                                         slides: { name: file.lessonSlide.name, url: savePath },
                                         course: req.query.courseId,
-                                        date: date.getDate() + ' - ' + date.getDay() + ' - ' + date.getFullYear(),
+                                        date: date.getDate() + ' - ' + parseInt(date.getMonth() + 1) + ' - ' + date.getFullYear(),
                                         instructor: req.user._id
                                     });
                                     newLesson.save((err, lesson) => {
@@ -72,7 +72,7 @@ exports.postCreateNewLesson = (req, res) => {
                                 name: fields.lessonName,
                                 content: fields.lessonContent,
                                 course: req.query.courseId,
-                                date: date.getDate() + ' - ' + date.getDay() + ' - ' + date.getFullYear(),
+                                date: date.getDate() + ' - ' + parseInt(date.getMonth() + 1) + ' - ' + date.getFullYear(),
                                 instructor: req.user._id
                             });
                             newLesson.save((err, lesson) => {
@@ -113,6 +113,7 @@ exports.postEditLesson = (req, res) => {
             form.uploadDir = 'public/slides/';
             form.parse(req, (err, fields, file) => {
                 if (!err) {
+                    var date = new Date(fields.startDate);
                     if (file.lessonSlide.size != 0) {
                         const oldPath = file.lessonSlide.path;
                         const savePath = '/slides/' + Date.now() + '-' + file.lessonSlide.name;
@@ -122,6 +123,7 @@ exports.postEditLesson = (req, res) => {
                                 lesson.update({
                                     name: fields.lessonName,
                                     content: fields.lessonContent,
+                                    date: date.getDate() + ' - ' + parseInt(date.getMonth() + 1) + ' - ' + date.getFullYear(),
                                     slides: { name: file.lessonSlide.name, url: savePath },
                                 }, (err, lesson) => {
                                     res.redirect('/instructor/edit-lesson?lessonId=' + req.query.lessonId);
@@ -134,6 +136,7 @@ exports.postEditLesson = (req, res) => {
                         lesson.update({
                             name: fields.lessonName,
                             content: fields.lessonContent,
+                            date: date.getDate() + ' - ' + parseInt(date.getMonth() + 1) + ' - ' + date.getFullYear()
                         }, (err, lesson) => {
                             res.redirect('/instructor/edit-lesson?lessonId=' + req.query.lessonId);
                         });

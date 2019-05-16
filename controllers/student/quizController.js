@@ -1,5 +1,8 @@
 const quizModel = require('../../models/quiz');
 const resultQuizModel = require('../../models/result-quiz');
+const reduceResultQuizModel = require('../../models/reduce-result-quiz');
+const lessonModel = require('../../models/lesson');
+const courseModel = require('../../models/course');
 
 exports.getQuiz = (req, res) => {
     var lessonId = req.query.lessonId;
@@ -47,5 +50,35 @@ exports.postSaveResultQuiz = (req, res) => {
             })
         }
         else return res.send('0');
+    })
+}
+
+exports.postSaveReduceResultQuiz = (req, res) => {
+    var lessonId = req.body.lesson;
+    var studentId = req.body.studentId;
+    var resultQuiz = req.body.resultQuiz;
+    quizModel.count({lesson: lessonId}, (err, cntQuiz) => {
+        resultQuiz += '/' + cntQuiz;
+        reduceResultQuizModel.findOne({lesson: lessonId, student: studentId}, (err, reduce) => {
+            if(!reduce){
+                lessonModel.findOne({_id: lessonId}, (err, lesson) => {
+                    var newResult = new reduceResultQuizModel({
+                        lesson: lessonId,
+                        student: studentId,
+                        result: resultQuiz,
+                        course: lesson.course
+                    })
+            
+                    newResult.save((err, result) => {
+            
+                    })
+                })
+                
+            }else{
+                // reduceResultQuizModel.findOneAndUpdate({lesson: lessonId, student: studentId}, {
+                //     result: resultQuiz
+                // }, (err, result) => {})
+            }
+        })
     })
 }

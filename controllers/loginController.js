@@ -3,7 +3,7 @@ const localStrategy = require('passport-local');
 const users = require('../models/user');
 
 passport.serializeUser((user, done) => {
-    done(null, user._id);
+    return done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
@@ -22,12 +22,13 @@ passport.use('local.login', new localStrategy({
             if(user.status === 'ACTIVE'){
                 return done(null, user);
             }else if(user.status === 'INACTIVE'){
-                return done('Tài khoản của bạn không được kích hoạt', null)
+                return done(null, false, {message: 'Tài khoản của bạn không được kích hoạt'})
             }else if(user.status === 'SUSPENDED'){
-                return done('Tài khoản của bạn đã bị khóa', null);
+                return done(null, false, {message: 'Tài khoản của bạn đã bị khóa'});
             }
+        }else{
+            return done(null, false, {message: 'Email hoặc password không đúng'});
         }
-        return ('Email hoặc password không đúng', null);
     });
 }));
 
@@ -36,7 +37,7 @@ exports.getLogin = (req, res) => {
 }
 exports.postLogin = passport.authenticate('local.login', {
     successRedirect: '/student',
-    failureRedirect: '/'
+    failureRedirect: '/login'
 });
 
 exports.getLogout = (req, res) => {

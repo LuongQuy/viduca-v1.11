@@ -34,6 +34,7 @@
                             </thead>
                             <% if(attendances.length != 0) { %>
                                 <% var i = 0; attendances.forEach(attendance => { %> 
+                                <tr>
                                     <td><%= ++i %></td>
                                     <td><%= attendance.student.info.lastname %> <%= attendance.student.info.firstname %></td>
                                     <td><%= attendance.student.local.email%></td>
@@ -43,7 +44,8 @@
                                             <%= time_att.join_time %> --> <%= time_att.exit_time %> <br>
                                             <% }) %>
                                         <% } %>
-                                    </td>    
+                                    </td>   
+                                </tr> 
                                 <%}) %>
                             <% } %>
                         </table>

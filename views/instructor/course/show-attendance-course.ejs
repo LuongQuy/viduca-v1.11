@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Thông tin khóa học</title>
+    <%- include('../layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('../layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('../layouts/course-tasks') %>
+                <div class="text-center">
+                    <!-- <div class="course-avatar img-thumbnail" style="background-image: url(<% if(typeof course.avatar != 'undefined'){ %><%= course.avatar %> <% } else {%> /images/avatar-course.jpg <%} %>);"></div> -->
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Kết quả điểm danh khóa học: <%= course.name %>
+                        
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Họ tên</th>
+                                <% var stt = 0; lessons.forEach(lesson => { stt++; %>
+                                    <th>Buổi <%= stt %></th>  
+                                <% }) %>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% course.learner.forEach(learner => { %>
+                                <tr>
+                                    <td><%= learner.info.lastname %> <%= learner.info.firstname %></td>
+                                    <% lessons.forEach(lesson => { %>
+                                        
+                                        <% if(JSON.stringify(lesson.participant).includes(JSON.stringify(learner._id))){ %> 
+                                        <td>Đi học</td>    
+                                        <% }else{ %> 
+                                        <td>Nghỉ học</td>    
+                                        <% } %>
+
+                                    <%}) %>
+                                </tr>    
+                                <% }) %> 
+                            </tbody>
+                          </table>
+                          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</html>

@@ -34,10 +34,13 @@ exports.getClassroom = (req, res, next) => {
             } else if (req.user.role == 'INSTRUCTOR' && req.user._id.equals(lesson.instructor)) {
                 OV.createSession()
                     .then(session => {
+                        // return res.send(session);
                         mapSessions[room] = session;
                         mapSessionNamesTokens[room] = [];
                         session.generateToken()
                             .then(token => {
+                                // var date = new Date();
+                                // return res.send(date);
                                 mapSessionNamesTokens[room].push(token);
                                 res.render('instructor/classroom', {
                                     token: token,

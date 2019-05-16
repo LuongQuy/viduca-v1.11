@@ -1,5 +1,6 @@
 const attendanceModel = require('../models/attendance');
 const userModel = require('../models/user');
+const lessonModel = require('../models/lesson');
 
 exports.attendance = (server) => {
     var io = require('socket.io').listen(server);
@@ -23,6 +24,7 @@ exports.attendance = (server) => {
                             if(err) console.log(err.toString());
                         });
                     }else{
+                            lessonModel.findOneAndUpdate({_id: lessonId}, {$push: {participant: studentId}}, (err, lesson) => {});
                             var attendance = new attendanceModel({
                             lesson: lessonId,
                             student: studentId,

@@ -12,13 +12,15 @@ exports.postCreateNewQuiz = (req, res) => {
     var lessonId = req.query.lessonId;
     var question = req.body.question;
     var answers = JSON.parse(req.body.answer);
-    var correctAnswer = req.body.correctAnswer
+    var correctAnswer = req.body.correctAnswer;
+    var instructorId = req.user._id;
 
     if(question != ''){
         var newQuiz = new quizModel({
             lesson: lessonId,
             question: question,
-            correctAnswer: correctAnswer
+            correctAnswer: correctAnswer,
+            instructor: instructorId
         });
         newQuiz.save((err, newquiz) => {
             var i = 0;
@@ -38,7 +40,6 @@ exports.getQuiz = (req, res) => {
         return res.render('instructor/layouts/classroom/div-quiz', {quizes: quizes});
     });
 }
-
 
 exports.getResultQuiz = (req, res) => {
     var lessonId = req.query.lessonId;
@@ -82,4 +83,20 @@ exports.getResultQuizClassroom = (req, res) => {
             })  
         });
     });
+}
+
+exports.getShowQuizList = (req, res) => {
+    var lessonId = req.query.lessonId;
+    quizModel.find({lesson: lessonId}, (err, quizes) => {
+        return res.render('instructor/quiz/show-quiz-list', {lessonId: lessonId, quizes: quizes, username: library.getCurrentUser(req.user)})
+    })
+}
+
+exports.getDeleteQuiz = (req, res) => {
+    var quizId = req.query.quizId;
+    quizModel.findOneAndRemove({_id: quizId}, (err, quiz) => {
+        quizModel.find({lesson: quiz.lesson}, (err, quizes) => {
+            return res.render('instructor/quiz/show-quiz-list', {msg: 'Xóa quiz thành công.', lessonId: quiz.lesson, quizes: quizes, username: library.getCurrentUser(req.user)})
+        }) 
+    })
 }

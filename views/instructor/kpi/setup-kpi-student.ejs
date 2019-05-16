@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('kpi-layout/header') %>
+
+<body id="page-top">
+  
+    <%- include('kpi-layout/nav') %>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('kpi-layout/sidebar') %>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Thiết lập KPI Sinh viên</li>
+        </ol>
+
+        <!-- Area Chart Example-->
+        <div class="container-fluid">
+                <form method="POST">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                        <label for="">Chọn khóa học</label>
+                        <select class="form-control" id="course-selection" name="courseId">
+                          <option value="0">-- Chọn khóa học --</option>
+                          <% courses.forEach(course => { %>
+                            <option value="<%= course._id %>" <% if(course._id == currentCourse){%> selected <% } %> >
+                              <%= course.name %>
+                            </option>
+                          <% }) %>
+                        </select>
+                        </div>
+                    </div>
+                   
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">Tỉ lệ buổi học tham gia (%)</label>
+                            <input type="number" class="form-control" id="rate_of_lesson" name="rate_of_lesson" value=<%= rate_of_lesson %>>
+                            </div>
+                        <div class="form-group col-md-6">
+                        <label for="">Tỉ lệ quiz trả lời đúng (%)</label>
+                        <input type="number" class="form-control" id="rate_of_quiz" name="rate_of_quiz" value=<%= rate_of_quiz  %>>
+                        </div>
+                      
+                    </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-5"></div>
+                        <div class="form-group col-md-2">
+                            <button type="submit" class="btn btn-primary" style="width: 100%">Submit</button>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </form>   
+        </div>
+      
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <%- include('kpi-layout/sticky-footer') %>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <%- include('kpi-layout/logout-modal') %>
+
+  <%- include('kpi-layout/footer') %>
+
+</body>
+<script>
+  $('#course-selection').on('change', function(event){
+    $.get('/instructor/kpi/setup-kpi-student-ajax?courseId='+$('#course-selection').val(), function(data){
+      $('#rate_of_lesson').val(data.rate_of_lesson);
+      $('#rate_of_quiz').val(data.rate_of_quiz);
+    })
+  })
+</script>
+</html>

@@ -8,6 +8,7 @@ const studentController = require('../controllers/student/studentController');
 const authController = require('../controllers/authController');
 const openviduController = require('../controllers/openviduController');
 const quizController = require('../controllers/student/quizController');
+const kpiController = require('../controllers/student/kpiController');
 
 router.get('/', authController.isLogged, authController.isStudent, studentController.getIndex);
 
@@ -41,6 +42,12 @@ router.post('/leave-session', authController.isLogged, authController.isStudent,
 
 router.post('/save-result-quiz', authController.isLogged, authController.isStudent, quizController.postSaveResultQuiz);
 
+router.post('/save-reduce-result', authController.isLogged, authController.isStudent, quizController.postSaveReduceResultQuiz);
+
 router.get('/get-quiz', authController.isLogged, authController.isStudent, quizController.getQuiz);
+
+router.get('/kpi', authController.isLogged, authController.isStudent, kpiController.getKPI);
+
+router.get('/kpi/get-kpi-ajax', authController.isLogged, authController.isStudent, kpiController.getKPIAjax);
 
 module.exports = router;

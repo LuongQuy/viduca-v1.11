@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Danh sách quiz</title>
+    <%- include('../layouts/resources') %>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <%- include('../layouts/header') %>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3">
+                <%- include('quiz-tasks') %>
+                
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Danh sách quiz:
+                        
+                    </div>
+                    <div class="panel-body">
+                        <div id="show-msg">
+                            <%- include('../layouts/message') %>
+                        </div>
+                        <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Stt</th>
+                                        <th>Quiz</th>
+                                        <th>Tác vụ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if(typeof quizes != 'undefined') {
+                                        var i = 1;
+                                        quizes.forEach((quiz) => {
+                                            %>
+                                    <tr>
+                                        <td>
+                                            <%= i %>
+                                        </td>
+                                        <td>
+                                            <%= quiz.question %>                                        
+                                        </td>
+                                        
+                                        <td>
+                                                
+                                                <!-- <a href="/admin/delete-quiz?quizId=<%= quiz._id %>"><button class="btn btn-info">Sửa quiz</button></a> -->
+                                                <a href="/instructor/delete-quiz?quizId=<%= quiz._id %>"><button class="btn btn-danger">Xóa quiz</button></a>
+                                        </td>
+                                    </tr>
+                                    <%
+                                            i++;
+                                        });
+                                    }%>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

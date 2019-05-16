@@ -1,4 +1,5 @@
 const courseModel = require('../../models/course');
+const lessonModel = require('../../models/lesson');
 const libary = require('../library');
 
 exports.getCourses = (req, res) => {
@@ -16,21 +17,25 @@ exports.getMyCourses = (req, res) => {
 exports.getCourseDetail = (req, res) => {
     courseModel.findOne({ _id: req.query.courseId, approved: true }).populate('instructor').exec((err, course) => {
         if (course) {
-            var boolRegister = true;
-            if(course.learner.toString().includes(req.user._id)){ boolRegister = false };
-            res.render('student/course-detail', { course: course, boolRegister: boolRegister, username: libary.getCurrentUser(req.user) });
+            lessonModel.find({course: req.query.courseId}, (err, lessons) => {
+                var boolRegister = true;
+                if(course.learner.toString().includes(req.user._id)){ boolRegister = false };
+                return res.render('student/course-detail', {lessons: lessons, course: course, boolRegister: boolRegister, username: libary.getCurrentUser(req.user) });
+            });
+        }else{
+            return res.send('Khóa học không tồn tại, vui lòng quay trở lại.');
         }
     });
 }
 
-exports.getRegisterCourse = (req, res) => {
-    courseModel.findById(req.query.courseId, course => {
-        // if(course.password ==)
-    });
-    courseModel.findByIdAndUpdate(req.query.courseId, {$push: {learner: req.user._id}} ,(err, course) => {
-        res.redirect('/student/course-detail?courseId=' + req.query.courseId);
-    });
-}
+// exports.getRegisterCourse = (req, res) => {
+//     courseModel.findById(req.query.courseId, course => {
+//         // if(course.password ==)
+//     });
+//     courseModel.findByIdAndUpdate(req.query.courseId, {$push: {learner: req.user._id}} ,(err, course) => {
+//         res.redirect('/student/course-detail?courseId=' + req.query.courseId);
+//     });
+// }
 
 exports.postJoinInCourse = (req, res) => {
     var courseId = req.query.courseId;
@@ -38,9 +43,21 @@ exports.postJoinInCourse = (req, res) => {
     courseModel.findOne({ _id: courseId, approved: true }).populate('instructor').exec((err, course) => {
         if(course.password == req.body.passwordOfCourse){
             courseModel.findByIdAndUpdate(req.query.courseId, {$push: {learner: req.user._id}}).populate("instructor").exec((err, course1) => {
-                var boolRegister = true;
-                if(course1.learner.toString().includes(req.user._id)){ boolRegister = false };
-                return res.render('student/course-detail', { course: course, boolRegister: boolRegister, username: libary.getCurrentUser(req.user), msg: "Đăng ký khóa học thành công."});
+                // var boolRegister = true;
+                // if(course1.learner.toString().includes(req.user._id)){ boolRegister = false };
+
+                courseModel.findOne({ _id: req.query.courseId, approved: true }).populate('instructor').exec((err, course) => {
+                    if (course) {
+                        lessonModel.find({course: req.query.courseId}, (err, lessons) => {
+                            var boolRegister = true;
+                            if(course.learner.toString().includes(req.user._id)){ boolRegister = false };
+                            return res.render('student/course-detail', {lessons: lessons, course: course, boolRegister: boolRegister, username: libary.getCurrentUser(req.user) });
+                        });
+                    }else{
+                        return res.send('Khóa học không tồn tại, vui lòng quay trở lại.');
+                    }
+                });
+                // return res.render('student/course-detail', { course: course, boolRegister: boolRegister, username: libary.getCurrentUser(req.user), msg: "Đăng ký khóa học thành công."});
             });
         }else{
             var boolRegister = true;
@@ -56,3 +73,6 @@ exports.getQuitCourse = (req, res) => {
         return res.redirect('/student/course-detail?courseId=' + req.query.courseId);
     });
 }
+
+
+

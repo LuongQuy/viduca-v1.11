@@ -27,10 +27,30 @@
                     </p>
                     <p><b>Mô tả: </b>
                         <%= course.description %>
-                    </p>
-                    <p><b>Nội dung: </b>
-                        <%= course.content %>
-                    </p>
+                    </p><br>
+                    <b>Đề cương khóa học: </b> <br><br>
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                              <tr>
+                                <th>STT</th>
+                                <th>Tên buổi học</th>
+                                <th>Ngày học</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% var i = 0; %>
+                                <% if(typeof lessons != 'undefined'){ %>
+                                    <% lessons.forEach(lesson => { i++; %>
+                                        <tr>
+                                            <td><%= i %></td>
+                                            <td><a href="/student/lesson-detail?lessonId=<%= lesson._id %>"><%= lesson.name %></a></td>
+                                            <td><%= lesson.date %></td>
+                                        </tr>
+                                    
+                                    <%}) %>
+                                <% } %>
+                            </tbody>
+                          </table>
                 </div>
             </div>
         </div>

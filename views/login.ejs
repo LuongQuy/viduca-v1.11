@@ -18,7 +18,12 @@
             <div class="row">
                 <div class="col-md-4 login-sec">
                     <h2 class="text-center">Login Now</h2>
-                    <form class="login-form" method="POST">
+                    <% if(typeof message != 'undefined'){ %> 
+                    <div class="alert alert-danger">
+                            <strong>Lỗi!</strong> <%= message %>
+                    </div>
+                    <% } %>
+                    <form class="login-form" method="POST" action="/">
                         <div class="form-group">
                             <label for="email" class="text-uppercase">Email</label>
                             <input name="email" type="email" class="form-control" value="">

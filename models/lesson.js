@@ -6,10 +6,11 @@ var lessonSchema = new Schema({
     content: String,
     date: String,
     course: {type: Schema.Types.ObjectId, ref: 'Course'},
-    participants: [{student: {type: Schema.Types.ObjectId, ref: 'User'}, join_time: Date}],
     slides: [{name: String, url: String}],
     documents: [{name: String, url: String}],
-    instructor: {type: Schema.Types.ObjectId, ref: 'User'}
+    instructor: {type: Schema.Types.ObjectId, ref: 'User'},
+    participant: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    video: String
 }, {
     timestamps: true
 });

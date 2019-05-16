@@ -7,6 +7,7 @@ const authController = require('../controllers/authController');
 const instructorController = require('../controllers/instructor/instructorController');
 const lessonController = require('../controllers/instructor/lessonController');
 const quizController = require('../controllers/instructor/quizController');
+const kpiController = require('../controllers/instructor/kpiController');
 
 router.get('/', authController.isLogged, authController.isInstructor, instructorController.getIndex);
 
@@ -61,5 +62,42 @@ router.get('/get-quiz', authController.isLogged, authController.isInstructor, qu
 router.get('/get-result-quiz', authController.isLogged, authController.isInstructor, quizController.getResultQuiz);
 
 router.get('/get-result-quiz-classroom', authController.isLogged, authController.isInstructor, quizController.getResultQuizClassroom);
+
+router.get('/get-attendance-course', authController.isLogged, authController.isInstructor, courseController.getAttendanceCourse);
+
+router.get('/get-result-quiz-of-course', authController.isLogged, authController.isInstructor, courseController.getResultQuizOfCourse);
+
+router.get('/show-quiz-list', authController.isLogged, authController.isInstructor, quizController.getShowQuizList);
+
+router.get('/delete-quiz', authController.isLogged, authController.isInstructor, quizController.getDeleteQuiz);
+
+// router.get('/get-quiz-result-of-course', authController.isLogged, authController.isInstructor, courseController.getQuizResultOfCourse);
+
+router.get('/add-video', authController.isLogged, authController.isInstructor, courseController.getAddVideo);
+
+router.post('/add-video', authController.isLogged, authController.isInstructor, courseController.postAddVideo);
+
+router.get('/kpi', authController.isLogged, authController.isInstructor, kpiController.getIndex);
+
+router.get('/kpi/setup-kpi-instructor', authController.isLogged, authController.isInstructor, kpiController.getSetupKPIInstructor);
+
+router.post('/kpi/setup-kpi-instructor', authController.isLogged, authController.isInstructor, kpiController.postSetupKPIInstructor);
+
+router.get('/kpi/setup-kpi-student', authController.isLogged, authController.isInstructor, kpiController.getSetupKPIStudent);
+
+router.get('/kpi/setup-kpi-student-ajax', authController.isLogged, authController.isInstructor, kpiController.getSetupKPIStudentAjax);
+
+router.post('/kpi/setup-kpi-student', authController.isLogged, authController.isInstructor, kpiController.postSetupKPIStudent);
+
+router.get('/kpi/get-course-list', authController.isLogged, authController.isInstructor, kpiController.getCourseList);
+
+router.get('/kpi/show-kpi-student', authController.isLogged, authController.isInstructor, kpiController.getShowKPIStudent);
+
+router.get('/kpi/detail-kpi-student', authController.isLogged, authController.isInstructor, kpiController.getDetailKPIStudent);
+
+// router.get('/kpi/get-student', authController.isLogged, authController.isInstructor, kpiController.getStudent);
+
+// router.get('/kpi/show-kpi-student', authController.isLogged, authController.isInstructor, kpiController.getShowKPIStudent);
+
 
 module.exports = router;

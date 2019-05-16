@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('kpi-layout/header') %>
+
+<body id="page-top">
+
+  <%- include('kpi-layout/nav') %>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('kpi-layout/sidebar') %>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Overview</li>
+        </ol>
+
+        <!-- Icon Cards-->
+        <%- include('kpi-layout/icon-cards') %>
+
+        <!-- Area Chart Example-->
+        
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <%- include('kpi-layout/sticky-footer') %>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <%- include('kpi-layout/logout-modal') %>
+
+  <%- include('kpi-layout/footer') %>
+
+</body>
+
+</html>

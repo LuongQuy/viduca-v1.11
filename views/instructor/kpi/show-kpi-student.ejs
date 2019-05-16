@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('kpi-layout/header') %>
+
+<body id="page-top">
+
+  <%- include('kpi-layout/nav') %>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('kpi-layout/sidebar') %>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Xem KPI Học viên</li>
+        </ol>
+
+        <!-- Icon Cards-->
+
+        <!-- Area Chart Example-->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Xem KPI học viên của bạn</div>
+          <div class="card-body">
+              <div class="form-row">
+                
+                  <div class="form-group col-md-12">
+                    <!-- <label for="">Chọn khóa học</label> -->
+                    <select type="number" class="form-control" id="courseId" name="courseId"> 
+                      <option value="0">-- Chọn khóa học --</option>
+                      <% if(typeof courses != 'undefined'){ %> 
+                      <% courses.forEach(course => { %> 
+                        <option value="<%= course._id %>" <% if(currentCourse == course._id){ %> selected <% } %>><%= course.name %></option>    
+                      <% }) %>
+                      <% } %>
+                    </select>
+                  </div>
+                  
+                </div>
+
+                <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <% if(typeof course != 'undefined'){ %> 
+                        <% var stt = 0; course.learner.forEach(student => { stt++; %> 
+                          <tr>
+                            <td><%= stt %></td>
+                            <td><a href="/instructor/kpi/detail-kpi-student?courseId=<%= course._id %>&studentId=<%= student._id %>"><%= student.info.lastname %> <%= student.info.firstname %></a></td>
+                            <td><%= student.local.email %></td>
+                          </tr>
+                        <% }) %>
+                        <% } %>
+                        
+                    </tbody>
+                  </table>
+
+            <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <%- include('kpi-layout/sticky-footer') %>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <%- include('kpi-layout/logout-modal') %>
+
+  <%- include('kpi-layout/footer') %>
+
+</body>
+
+<script>
+$('#courseId').on('change', function(event){
+    window.open('/instructor/kpi/show-kpi-student?courseId='+$(this).val(), '_self');
+});
+</script>
+
+</html>

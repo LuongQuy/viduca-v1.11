@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('kpi-layout/header') %>
+
+<body id="page-top">
+
+  <%- include('kpi-layout/nav') %>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <%- include('kpi-layout/sidebar') %>
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Overview</li>
+        </ol>
+
+        <!-- Icon Cards-->
+        <%- include('kpi-layout/icon-cards') %>
+        <% if(typeof reduces != 'undefined'){ %>
+          <% reduces.forEach(reduce => { %>
+            <input type="hidden" name="dataChart[]" value="<%= (reduce.result) %>">
+          <% }) %>
+        <% } %>
+        <% if(typeof cntTotalLesson != 'undefined') { %> 
+        <input type="hidden" id="cntTotalLesson" value="<%= cntTotalLesson %>">
+        <% } %>
+
+        <div class="card mb-3">
+          <br>
+            <div class="form-row">
+                <div class="col-md-1"></div>
+                  <div class="form-group col-md-10">
+                  <select class="form-control" id="course-selection" name="courseId">
+                    <option value="0">-- Chọn khóa học --</option>
+                    <% courses.forEach(course => { %>
+                      <option value="<%= course._id %>" <% if(course._id == currentCourse){%> selected <% } %> >
+                        <%= course.name %>
+                      </option>
+                    <% }) %>
+                  </select>
+                  </div>
+                  <div class="col-md-1"></div>
+              </div>
+            <div class="card-header">
+                KPI do giảng viên đặt</div>
+            <div class="card-body">
+            Tỉ lệ buổi học tham gia: <b><span id="rate_of_lesson"><%= rate_of_lesson %> </span>(%)</b><br>
+            Tỉ lệ quiz trả lời đúng: <b><span id="rate_of_quiz"><%= rate_of_quiz %></span> (%)</b>
+            </div>
+                
+        </div>
+        <div class="card mb-3">
+            
+          <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Tiến độ học</div>
+          <div class="card-body">
+
+            Tỉ lệ buổi học tham gia
+            <div class="progress" style="height:20px">
+                <div id="rate_lesson_attend" class="progress-bar bg-success" style="width:<%= rate_lesson_attend %>%;height:20px"><%= rate_lesson_attend %>%</div>
+            </div>
+            Quiz
+            <div class="progress" style="height:20px">
+                <div class="progress-bar bg-danger" style="width:<%= rate_quiz_correct %>%;height:20px"><%= rate_quiz_correct %>%</div>
+            </div>
+          </div>
+          <div class="card-footer small text-muted">Cập nhật lần cuối 11:59 PM 19-04-2019</div>
+        </div>
+
+        <!-- Area Chart Example-->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Biểu đồ KPI theo khóa học</div>
+          <div class="card-body">
+            <canvas id="myAreaChart" width="100%" height="30"></canvas>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+
+        
+        
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <%- include('kpi-layout/sticky-footer') %>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <%- include('kpi-layout/logout-modal') %>
+
+  <%- include('kpi-layout/footer') %>
+
+</body>
+<script>
+  $('#course-selection').on('change', function(data){
+    window.open('/student/kpi?courseId='+$(this).val(), '_self');
+    // $.get('/student/kpi/get-kpi-ajax?courseId='+$(this).val(), function(data){
+    //   // console.trace(data);
+    //   $('#rate_of_lesson').html(data.rate_of_lesson);
+    //   $('#rate_of_quiz').html(data.rate_of_quiz);
+    //   $('#rate_lesson_attend').css("width", data.rate_lesson_attend+"%");
+    //   $('#rate_lesson_attend').html(data.rate_lesson_attend + "%");
+    //   $('#rate_quiz_correct').css('width', data.rate_quiz_correct + "%");
+    //   $('#rate_quiz_correct').html(data.rate_quiz_correct + "%");
+    // })
+  })
+</script>
+
+<script>
+  var labelChartLesson = ["Buổi 1", "Buổi 2", "Buổi 3", "Buổi 25", "Buổi 5", "Buổi 6", "Buổi 7", "Buổi 8", "Buổi 9", "Buổi 10", "Buổi 11", "Buổi 12", "Buổi 13"];
+  
+  var dataChart = $("input[name='dataChart[]']")
+              .map(function(){return $(this).val();}).get();
+  var dataChartLesson = dataChart.map(function(data){
+    return parseInt(data[0])/parseInt(data[2])*100;
+  })
+
+  var arrLesson = new Array();
+  for(var i = 0; i <= $('#cntTotalLesson').val(); i++){
+    arrLesson[i] = "Buổi " + parseInt(i+1);
+  }
+  labelChartLesson = arrLesson;
+    // console.log(arrLesson)
+  
+// Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+// Area Chart Example
+var ctx = document.getElementById("myAreaChart");
+var myLineChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: labelChartLesson,
+    datasets: [{
+      label: "Tỉ lệ làm đúng quiz: ",
+      lineTension: 0.3,
+      backgroundColor: "rgba(2,117,216,0.2)",
+      borderColor: "rgba(2,117,216,1)",
+      pointRadius: 5,
+      pointBackgroundColor: "rgba(2,117,216,1)",
+      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(2,117,216,1)",
+      pointHitRadius: 50,
+      pointBorderWidth: 2,
+      data: dataChartLesson,
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'date'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 7
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 100,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          color: "rgba(0, 0, 0, .125)",
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+</script>
+
+</html>
